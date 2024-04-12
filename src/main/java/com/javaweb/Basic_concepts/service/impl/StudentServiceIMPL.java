@@ -66,9 +66,10 @@ public class StudentServiceIMPL implements StudentService {
 
     @Override
     public StudentDTO addOrUpdateSt(AddOrUpdateStudentRequest addOrUpdateStudentRequest) {
+        checkRequire.checkField(addOrUpdateStudentRequest); // anh xem lại đoạn này e xử lí gửi thiếu field khi add or update
         try{
-            // check chỗ này thấy không có tác dụng lắm, vì không có kểu trả về
-//        checkRequire.checkField(addOrUpdateStudentRequest);
+//             check chỗ này thấy không có tác dụng lắm, vì không có kểu trả về
+
             StudentEntity studentEntity=studentConverter.toStudentEntity(addOrUpdateStudentRequest);
             if(studentEntity.getId()==null){
                 studentRepository.addStudent(studentEntity);
