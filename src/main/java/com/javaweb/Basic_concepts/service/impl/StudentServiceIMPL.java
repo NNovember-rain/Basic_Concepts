@@ -1,10 +1,16 @@
 package com.javaweb.Basic_concepts.service.impl;
 
+import com.javaweb.Basic_concepts.Entity.Exam_ManagementEntity;
 import com.javaweb.Basic_concepts.Entity.StudentEntity;
+import com.javaweb.Basic_concepts.Entity.SubjectEntity;
+import com.javaweb.Basic_concepts.checkrequire.CheckRequire;
+import com.javaweb.Basic_concepts.converter.StudentConverter;
 import com.javaweb.Basic_concepts.model.dto.StudentDTO;
+import com.javaweb.Basic_concepts.model.request.AddOrUpdateStudentRequest;
+import com.javaweb.Basic_concepts.repository.Exam_ManagementRepository;
 import com.javaweb.Basic_concepts.repository.StudentRepository;
+import com.javaweb.Basic_concepts.repository.SubjectRepository;
 import com.javaweb.Basic_concepts.service.StudentService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +23,72 @@ public class StudentServiceIMPL implements StudentService {
     @Autowired
     private StudentRepository studentRepository;
     @Autowired
-    private ModelMapper moderMapper;
+    private  StudentConverter studentConverter;
+    @Autowired
+    SubjectRepository subjectRepository;
+    @Autowired
+    Exam_ManagementRepository examManagementRepository;
+    @Autowired
+    CheckRequire checkRequire;
+
     @Override
     public List<StudentDTO> findAll(Map<String, Object> params, List<String> subjectClass) {
 
-
         List<StudentEntity> studentEntities= studentRepository.findAll(params,subjectClass);
         List<StudentDTO> studentDTOS=new ArrayList<>();
+
         for(StudentEntity it:studentEntities){
-            studentDTOS.add(moderMapper.map(it,StudentDTO.class));
+            studentDTOS.add(studentConverter.toStudentDTO(it));
+        }
+        return studentDTOS;
+    }
+
+    @Override
+    public void deleteById(List<Integer> ids) {
+        for(Integer id :ids) {
+            StudentEntity studentEntity =studentRepository.findById(id);
+            studentRepository.deleteStudent(studentEntity);
+        }
+    }
+
+    @Override
+    public StudentDTO addOrUpdateSt(AddOrUpdateStudentRequest addOrUpdateStudentRequest) {
+        checkRequire.checkField(addOrUpdateStudentRequest);
+        StudentEntity studentEntity=studentConverter.toStudentEntity(addOrUpdateStudentRequest);
+        if(studentEntity.getId()==null){
+            studentRepository.addStudent(studentEntity);
+        }
+        else {
+            studentRepository.updateStudent(studentEntity);
+        }
+        String[] s= addOrUpdateStudentRequest.getSubjectName().split(",");
+        for(String it:s){
+            SubjectEntity subjectEntity=subjectRepository.findByName(it);
+            if(subjectEntity==null){
+                subjectEntity=new SubjectEntity();
+                subjectEntity.setSubject_Name(it);
+                subjectRepository.addSubject(subjectEntity);
+            }
+            Exam_ManagementEntity examManagementEntity=new Exam_ManagementEntity();
+            examManagementEntity.setStudent(studentEntity);
+            examManagementEntity.setSubject(subjectEntity);
+            subjectEntity.getExamManagements().add(examManagementEntity);
+            studentEntity.getExamManagements().add(examManagementEntity);
+            examManagementRepository.addExamManage(examManagementEntity);
+        }
+        return studentConverter.toStudentDTO(studentEntity);
+    }
+
+    @Override
+    public List<StudentDTO> getStudentByBirthDay(String birthday) {
+        String[] tmp=birthday.split("-");
+        Integer day=Integer.parseInt(tmp[0]);
+        Integer month=Integer.parseInt(tmp[1]);
+        List<StudentEntity> studentEntities=studentRepository.findByDayandMonth(day,month);
+
+        List<StudentDTO> studentDTOS=new ArrayList<>();
+        for(StudentEntity it:studentEntities){
+            studentDTOS.add(studentConverter.toStudentDTO(it));
         }
         return studentDTOS;
     }

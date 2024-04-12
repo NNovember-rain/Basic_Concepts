@@ -1,16 +1,19 @@
 package com.javaweb.Basic_concepts.Entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 @Getter
 @Setter
 @Entity
 @Table(name="student")
-public class StudentEntity {
+public class StudentEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,14 +31,13 @@ public class StudentEntity {
     private String gender;
 
     @Column(name = "avg")
-    private Float AVG;
+    private Float avg;
 
     @ManyToOne
     @JoinColumn(name="major_id")
     private MajorEntity major;
 
-    @ManyToMany(mappedBy = "students",fetch = FetchType.LAZY)
-    private List<SubjectEntity> subjects=new ArrayList<>();
-
+    @OneToMany(mappedBy = "student", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, orphanRemoval = true)
+    private List<Exam_ManagementEntity> examManagements=new ArrayList<>();
 
 }

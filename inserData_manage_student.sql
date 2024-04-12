@@ -1,18 +1,18 @@
 -- Thêm dữ liệu vào bảng major
-INSERT INTO major (name) VALUES
+INSERT INTO major (major_Name) VALUES
 ('Công nghệ thông tin'),
-('Kỹ thuật điện'),
-('Sinh học'),
+('Truyền thông đa phương tiện'),
+('Điện tử viễn thông'),
 ('Marketing'),
-('Văn học Anh');
+('Quản trị kinh doanh');
 
 -- Thêm dữ liệu vào bảng subject
-INSERT INTO subject (name) VALUES
+INSERT INTO subject (subject_Name) VALUES
 ('Cấu trúc dữ liệu'),
-('Phân tích mạch điện'),
+('Giáo dục thể chất'),
 ('Di truyền học'),
 ('Cơ sở dữ liệu'),
-('Nghiên cứu Shakespeare');
+('giải tích 1');
 
 -- Thêm dữ liệu vào bảng student
 INSERT INTO student (name, birthday, hometown, AVG, gender, major_id) VALUES

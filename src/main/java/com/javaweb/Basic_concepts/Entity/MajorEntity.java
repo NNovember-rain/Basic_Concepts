@@ -1,12 +1,16 @@
 package com.javaweb.Basic_concepts.Entity;
 
+
+
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Getter
 @Setter
@@ -16,13 +20,13 @@ public class MajorEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "major_Name")
+    private String major_Name;
 
-    @OneToMany(mappedBy = "major" ,fetch = FetchType.LAZY)
-    private List<StudentEntity> studentEntities=new ArrayList<>();
+    @OneToMany(mappedBy = "major",fetch = FetchType.LAZY)
+    private List<StudentEntity> students=new ArrayList<>();
 
 
 }

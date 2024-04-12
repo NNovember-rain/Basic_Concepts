@@ -1,14 +1,17 @@
-package com.javaweb.Basic_concepts.model.dto;
+package com.javaweb.Basic_concepts.model.request;
 
-import com.javaweb.Basic_concepts.Entity.MajorEntity;
 import lombok.Data;
 
 @Data
-public class StudentDTO {
+public class AddOrUpdateStudentRequest {
+    private Integer id;
     private String name;
     private String gender;
     private String birthday;
     private String hometown;
+    private Float avg;
     private String subjectName;
     private String majorName;
+    private Integer page;
+    private Integer pageSize;
 }

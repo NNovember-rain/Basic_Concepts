@@ -1,51 +1,29 @@
 package com.javaweb.Basic_concepts.Entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Getter
 @Setter
 @Entity
 @Table(name="subject")
-public class SubjectEntity {
+public class SubjectEntity implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "subject_Name")
+    private String subject_Name;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="exam_management",
-                joinColumns =@JoinColumn(name="subject_id",nullable = false),
-                inverseJoinColumns = @JoinColumn(name="student_id",nullable = false))
-    private List<StudentEntity> students=new ArrayList<>();
+    @OneToMany(mappedBy = "subject",fetch = FetchType.LAZY)
+    private List<Exam_ManagementEntity> examManagements=new ArrayList<>();
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<StudentEntity> getStudents() {
-        return students;
-    }
-
-    public void setStudents(List<StudentEntity> students) {
-        this.students = students;
-    }
 }
