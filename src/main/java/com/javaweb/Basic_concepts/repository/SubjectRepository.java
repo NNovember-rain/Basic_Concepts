@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface SubjectRepository {
     public SubjectEntity findByName(String s);
-    public void addSubject(SubjectEntity subjectEntity);
 
+    public void addSubject(SubjectEntity subjectEntity);
 }

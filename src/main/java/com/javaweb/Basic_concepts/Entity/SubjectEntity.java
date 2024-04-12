@@ -1,14 +1,12 @@
 package com.javaweb.Basic_concepts.Entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Getter
 @Setter
@@ -24,6 +22,4 @@ public class SubjectEntity implements Serializable{
 
     @OneToMany(mappedBy = "subject",fetch = FetchType.LAZY)
     private List<Exam_ManagementEntity> examManagements=new ArrayList<>();
-
-
 }

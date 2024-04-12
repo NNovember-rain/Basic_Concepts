@@ -5,5 +5,6 @@ import com.javaweb.Basic_concepts.Entity.SubjectEntity;
 
 public interface MajorRepository {
     public MajorEntity findByName(String s);
+
     public void addMajor(MajorEntity majorEntity);
 }

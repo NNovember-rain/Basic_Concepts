@@ -1,6 +1,5 @@
 package com.javaweb.Basic_concepts.model.dto;
 
-import com.javaweb.Basic_concepts.Entity.MajorEntity;
 import lombok.Data;
 
 @Data

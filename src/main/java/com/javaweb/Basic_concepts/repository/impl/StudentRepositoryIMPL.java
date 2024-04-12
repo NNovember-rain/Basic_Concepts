@@ -12,6 +12,7 @@ import com.javaweb.Basic_concepts.utils.isNumberUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 @Transactional
 @Repository
+@Log4j2
 public class StudentRepositoryIMPL implements StudentRepository {
     @PersistenceContext
     private EntityManager entityManager;
@@ -34,6 +36,7 @@ public class StudentRepositoryIMPL implements StudentRepository {
             sql.append("INNER JOIN major mj ON s.major_id=mj.id");
         }
     }
+
     public void checkQuerryNormal(Map<String, Object> params, List<String> subjectClass,StringBuilder where){
         for(String it:params.keySet()){
             if( !it.equals("subjectClass") &&  !it.startsWith("avg") &&  !it.startsWith("birthday") &&!it.equals("major_Name")){
@@ -97,18 +100,23 @@ public class StudentRepositoryIMPL implements StudentRepository {
         Query query=entityManager.createNativeQuery(sql.toString(), StudentEntity.class);
         return query.getResultList();
     }
+
     @Override
     public List<StudentEntity> findAll(Map<String, Object> params, List<String> subjectClass) {
-        StringBuilder sql=new StringBuilder("SELECT s.* FROM student s ");
-
-        StringBuilder where=new StringBuilder(" WHERE 1=1 ");
-        checkJoinTable(params,subjectClass,sql);
-        checkQuerryNormal(params,subjectClass,where);
-        checkQuerrySpecial(params,subjectClass,where);
-        where.append(" GROUP BY s.id ");
-        checkPage(params,where);
-        sql.append(where.toString());
-        return solveResult(sql);
+        try {
+            StringBuilder sql=new StringBuilder("SELECT s.* FROM student s ");
+            StringBuilder where=new StringBuilder(" WHERE 1=1 ");
+            checkJoinTable(params,subjectClass,sql);
+            checkQuerryNormal(params,subjectClass,where);
+            checkQuerrySpecial(params,subjectClass,where);
+            where.append(" GROUP BY s.id ");
+            checkPage(params,where);
+            sql.append(where.toString());
+            return solveResult(sql);
+        } catch (Exception e) {
+            log.info("Exception: ", e);
+        }
+        return null;
     }
 
     @Override
@@ -120,11 +128,13 @@ public class StudentRepositoryIMPL implements StudentRepository {
         }
     }
 
-
-
     @Override
     public StudentEntity findById(Integer id) {
-        return entityManager.find(StudentEntity.class,id );
+        try {
+            return entityManager.find(StudentEntity.class,id );
+        }catch (Exception e){
+            throw new IdExistException("StudentId is not exits !");
+        }
     }
 
     @Override

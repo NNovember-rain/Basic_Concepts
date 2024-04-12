@@ -14,16 +14,15 @@ import java.util.List;
 
 @ControllerAdvice
 public class handleException extends ResponseEntityExceptionHandler {
-
-        @ExceptionHandler(FieldRequiredException.class)
-        public ResponseEntity<Object> FieldException(FieldRequiredException ex){
-            StudentResponse errorResponseDTO = new StudentResponse();
-            errorResponseDTO.setMassage(ex.getMessage());
-            List<String> details = new ArrayList<>();
-            details.add("please,enter the full field ");
-            errorResponseDTO.setDetails(details);
-            return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_GATEWAY);
-        }
+    @ExceptionHandler(FieldRequiredException.class)
+    public ResponseEntity<Object> FieldException(FieldRequiredException ex){
+        StudentResponse errorResponseDTO = new StudentResponse();
+        errorResponseDTO.setMassage(ex.getMessage());
+        List<String> details = new ArrayList<>();
+        details.add("please,enter the full field ");
+        errorResponseDTO.setDetails(details);
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_GATEWAY);
+    }
 
     @ExceptionHandler(IdExistException.class)
     public ResponseEntity<Object> IdException(IdExistException ex){

@@ -10,10 +10,14 @@ import java.util.Map;
 
 public interface StudentRepository {
     public List<StudentEntity> findAll(Map<String, Object> params, List<String> subjectClass);
+
     public void deleteStudent(StudentEntity studentEntity);
 
     public  StudentEntity findById(Integer id);
+
     public void addStudent(StudentEntity studentEntity);
+
     public void updateStudent(StudentEntity studentEntity);
+
     public List<StudentEntity> findByDayandMonth(Integer d, Integer m);
 }

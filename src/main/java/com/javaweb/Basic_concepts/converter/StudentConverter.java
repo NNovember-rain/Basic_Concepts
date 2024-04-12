@@ -16,8 +16,10 @@ import java.util.List;
 public class StudentConverter {
     @Autowired
     private ModelMapper moderMapper;
+
     @Autowired
     private MajorRepository majorRepository;
+
     public StudentDTO toStudentDTO(StudentEntity studentEntity){
         MajorEntity majorEntity=studentEntity.getMajor();
         List<Exam_ManagementEntity> examManagementEntities=studentEntity.getExamManagements();

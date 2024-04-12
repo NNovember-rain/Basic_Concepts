@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MajorRepositoryIMPL implements MajorRepository {
     @PersistenceContext
     private EntityManager entityManager;
+
     @Override
     public MajorEntity findByName(String s) {
         StringBuilder sql=new StringBuilder("SELECT m.* FROM major m WHERE m.major_name = '"+s+"' ;");
@@ -28,5 +29,4 @@ public class MajorRepositoryIMPL implements MajorRepository {
     public void addMajor(MajorEntity majorEntity) {
         entityManager.persist(majorEntity);
     }
-
 }

@@ -1,9 +1,6 @@
 package com.javaweb.Basic_concepts.Entity;
 
-
-
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,13 +8,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Getter
 @Setter
 @Entity
 @Table(name="major")
 public class MajorEntity implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

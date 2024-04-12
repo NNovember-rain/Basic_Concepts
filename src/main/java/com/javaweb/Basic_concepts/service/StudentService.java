@@ -8,8 +8,10 @@ import java.util.Map;
 
 public interface StudentService {
     public List<StudentDTO> findAll(Map<String,Object> params, List<String> subjectClass);
-    public void deleteById(List<Integer> ids);
-    public StudentDTO addOrUpdateSt(AddOrUpdateStudentRequest addOrUpdateStudentRequest);
-    public List<StudentDTO> getStudentByBirthDay(String s);
 
+    public void deleteById(Integer id);
+
+    public StudentDTO addOrUpdateSt(AddOrUpdateStudentRequest addOrUpdateStudentRequest);
+
+    public List<StudentDTO> getStudentByBirthDay(String s);
 }

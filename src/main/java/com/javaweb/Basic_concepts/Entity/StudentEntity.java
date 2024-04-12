@@ -1,7 +1,6 @@
 package com.javaweb.Basic_concepts.Entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,5 +38,4 @@ public class StudentEntity implements Serializable {
 
     @OneToMany(mappedBy = "student", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, orphanRemoval = true)
     private List<Exam_ManagementEntity> examManagements=new ArrayList<>();
-
 }
